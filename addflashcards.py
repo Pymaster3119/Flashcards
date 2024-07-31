@@ -31,17 +31,23 @@ class Flashcardrow:
         self.definitionvar = self.definitionvar.get()
         return main.Flashcard(self.termvar, self.definitionvar)
 
-root = Tk()
-cardsetname = StringVar(root)
-frame = Frame(root)
-frame.pack()
-Label(frame, text="What is the name of your set:").grid(row= 0, column=0)
-Entry(frame, textvariable=cardsetname).grid(row = 0, column= 1)
-entryframe = tkscrolledframe.ScrolledFrame(frame)
-entryframe.grid(row=2, column = 0, columnspan=2)
-Button(frame, text="Create Flashcard", command=createflashcard).grid(row=3, column=0)
-Button(frame, text="Save Set", command=savefile).grid(row=3, column=1)
 rownum = 0
 flashcards = []
+entryframe = None
+cardsetname = None
+def runapp(root):
+    cardsetname = StringVar(root)
+    frame = Frame(root)
+    frame.pack()
+    Label(frame, text="What is the name of your set:").grid(row= 0, column=0)
+    Entry(frame, textvariable=cardsetname).grid(row = 0, column= 1)
+    entryframe = tkscrolledframe.ScrolledFrame(frame)
+    entryframe.grid(row=2, column = 0, columnspan=2)
+    Button(frame, text="Create Flashcard", command=createflashcard).grid(row=3, column=0)
+    Button(frame, text="Save Set", command=savefile).grid(row=3, column=1)
+    
 
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    runapp(root)
+    root.mainloop()
