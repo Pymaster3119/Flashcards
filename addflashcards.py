@@ -15,6 +15,8 @@ def savefile():
         for flashcard in flashcards:
             flashcardsexport.append(flashcard.compress())
         pickle.dump(flashcardsexport, txt)
+    with open("flashcardsnames", "a") as txt:
+        txt.write(cardsetname.get() + "\n")
 
 class Flashcardrow:
     def __init__(self, root, rownum):

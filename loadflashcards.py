@@ -5,15 +5,9 @@ import random
 root = tkinter.Tk()
 outputvar = tkinter.StringVar(root)
 userinput = tkinter.StringVar(root)
-#REPLACE
-setname = input("What set do you want?: ")
-with open(setname, "rb") as txt:
-    set = pickle.load(txt)
-    print(set)
 
-random.shuffle(set)
+
 idx = 0
-outputvar.set("What is meant by " + set[idx].term)
 def check():
     global idx
     print(idx)
@@ -31,7 +25,22 @@ def check():
     except IndexError:
         idx = -2
         outputvar.set('Set done! Now, just press the "Check" button to end the session.')
-tkinter.Label(root, textvariable=outputvar).pack()
-tkinter.Entry(root, textvariable=userinput).pack()
-tkinter.Button(root, text="Check", command=check).pack()
+def drawFirstSet():
+    with open(setname.get(), "rb") as txt:
+        set = pickle.load(txt)
+        print(set)
+        random.shuffle(set)
+    outputvar.set("What is meant by " + set[idx].term)
+    for child in root.winfo_children():
+        child.destroy()
+    tkinter.Label(root, textvariable=outputvar).pack()
+    tkinter.Entry(root, textvariable=userinput).pack()
+    tkinter.Button(root, text="Check", command=check).pack()
+
+setname = tkinter.StringVar(root)
+with open("flashcardsnames", "r") as txt:
+    sets = txt.read().split("\n")
+    setname.set(sets[0])
+tkinter.OptionMenu(root, setname, *sets).pack()
+tkinter.Button(root, text="Start!", command=drawFirstSet).pack()
 root.mainloop()
