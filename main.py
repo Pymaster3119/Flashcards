@@ -23,6 +23,8 @@ def render(root):
         child.destroy()
     Button(root, text="Add Flashcards", command=lambda: runapp(addflashcards, root)).pack()
     Button(root, text="Quiz Flashcards", command=lambda: runapp(loadflashcards, root)).pack()
+    Button(root, text="Plot result", command=lambda: runapp(readresults, root)).pack()
+    Button(root, text="Plan for long-term retention", command=lambda: runapp(flashcardsreminder, root)).pack()
 
 def generateStudyDifferences(n):
     sequence = [1, 2, 4, 9, 14]
@@ -39,6 +41,8 @@ def generateStudyDifferences(n):
 if __name__ == "__main__":
     import addflashcards
     import loadflashcards
+    import flashcardsreminder
+    import readresults
     root = Tk()
     render(root)
     root.mainloop()

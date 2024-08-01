@@ -3,7 +3,7 @@ import pickle
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
 NavigationToolbar2Tk) 
-root = Tk()
+
 class PreaformanceRow():
     def __init__(self, list, root):
         frame = Frame(root)
@@ -13,6 +13,7 @@ class PreaformanceRow():
         Label(frame, text="Number of Terms?:" + str(list[2])).grid(row=0, column=2)
 
 def creategui(root):
+    global setname
     for child in root.winfo_children():
         child.destroy()
     iteration = 0
@@ -38,12 +39,17 @@ def creategui(root):
     toolbar.update()
     canvas.get_tk_widget().pack()
     print("hi")
+setname = None
+def runapp(root):
+    global setname
+    setname = StringVar()
+    with open("flashcardsnames", "r") as txt:
+        sets = txt.read().split("\n")
+        setname.set(sets[0]) 
+    OptionMenu(root, setname, *sets).pack()
+    Button(root,text="Find Stats", command=lambda:creategui(root)).pack()
 
-setname = StringVar()
-with open("flashcardsnames", "r") as txt:
-    sets = txt.read().split("\n")
-    setname.set(sets[0]) 
-OptionMenu(root, setname, *sets).pack()
-Button(root,text="Find Stats", command=lambda:creategui(root)).pack()
-
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    runapp(root)
+    root.mainloop()
