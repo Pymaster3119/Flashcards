@@ -24,6 +24,18 @@ def render(root):
     Button(root, text="Add Flashcards", command=lambda: runapp(addflashcards, root)).pack()
     Button(root, text="Quiz Flashcards", command=lambda: runapp(loadflashcards, root)).pack()
 
+def generateStudyDifferences(n):
+    sequence = [1, 2, 4, 9, 14]
+    differences = [1, 2, 5, 5]
+    
+    while len(sequence) < n:
+        next_diff = differences[-1] + (differences[-1] - differences[-2]) if len(differences) > 1 else differences[-1] + 1
+        next_term = sequence[-1] + next_diff
+        sequence.append(next_term)
+        differences.append(next_diff)
+    
+    return sequence
+
 if __name__ == "__main__":
     import addflashcards
     import loadflashcards

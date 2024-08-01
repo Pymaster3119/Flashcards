@@ -2,7 +2,7 @@ import tkinter
 import main
 import pickle
 import random
-
+import datetime
 set = None
 idx = 0
 numcorrect = 0
@@ -21,6 +21,11 @@ def check(root):
                     except:
                         break
                 with open("results/" + setname.get() + "|" + str(iteration), "wb") as txt:
+                    pickle.dump(list,txt)
+                with open("studytimes/" + setname.get(), "rb") as txt:
+                    list = pickle.load(txt)
+                list.append(datetime.datetime.now())
+                with open("studytimes/" + setname.get(), "wb") as txt:
                     pickle.dump(list,txt)
                 root.quit()
                 return
@@ -47,6 +52,11 @@ def check(root):
                     except:
                         break
                 with open("results/" + setname.get() + "|" + str(iteration), "wb") as txt:
+                    pickle.dump(list,txt)
+                with open("studytimes/" + setname.get(), "rb") as txt:
+                    list = pickle.load(txt)
+                list.append(datetime.datetime.now())
+                with open("studytimes/" + setname.get(), "wb") as txt:
                     pickle.dump(list,txt)
                 root.quit()
                 return

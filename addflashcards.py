@@ -17,6 +17,8 @@ def savefile():
         pickle.dump(flashcardsexport, txt)
     with open("flashcardsnames", "a") as txt:
         txt.write(cardsetname.get() + "\n")
+    with open("studytimes/" + cardsetname.get(), "wb") as txt:
+        pickle.dump([],txt)
 
 class Flashcardrow:
     def __init__(self, root, rownum):
