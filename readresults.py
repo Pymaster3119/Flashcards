@@ -1,22 +1,49 @@
 from tkinter import *
 import pickle
+from matplotlib.figure import Figure 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
+NavigationToolbar2Tk) 
 root = Tk()
 class PreaformanceRow():
     def __init__(self, list, root):
         frame = Frame(root)
         frame.pack()
         Label(frame, text="Definition to term?:" + str(list[0])).grid(row=0, column=0)
-        Label(frame, text="Number Correct?:" + str(list[1])).grid(row=1, column=0)
-        Label(frame, text="Number of Terms?:" + str(list[2])).grid(row=2, column=0)
+        Label(frame, text="Number Correct?:" + str(list[1])).grid(row=0, column=1)
+        Label(frame, text="Number of Terms?:" + str(list[2])).grid(row=0, column=2)
 
-iteration = 0
-#Replace
-setname = input("Name of set?: ")
-while True:
-    iteration += 1
-    try:
-        with open("results/" + setname + "|" + str(iteration), "rb") as txt:
-            PreaformanceRow(pickle.load(txt), root)
-    except:
-        break
+def creategui(root):
+    for child in root.winfo_children():
+        child.destroy()
+    iteration = 0
+    percentages = []
+    while True:
+        iteration += 1
+        try:
+            with open("results/" + setname.get() + "|" + str(iteration), "rb") as txt:
+                list = pickle.load(txt)
+                PreaformanceRow(list, root)
+                percentages.append(list[1])
+                print("here")
+        except:
+            break
+    #Plot manefesto
+    fig = Figure(figsize = (5, 5), dpi = 100)
+    plot1 = fig.add_subplot(111)
+    plot1.plot(percentages)
+    canvas = FigureCanvasTkAgg(fig, master = root)
+    canvas.draw()
+    canvas.get_tk_widget().pack()
+    toolbar = NavigationToolbar2Tk(canvas, root)
+    toolbar.update()
+    canvas.get_tk_widget().pack()
+    print("hi")
+
+setname = StringVar()
+with open("flashcardsnames", "r") as txt:
+    sets = txt.read().split("\n")
+    setname.set(sets[0]) 
+OptionMenu(root, setname, *sets).pack()
+Button(root,text="Find Stats", command=lambda:creategui(root)).pack()
+
 root.mainloop()

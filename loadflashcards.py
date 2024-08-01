@@ -25,10 +25,10 @@ def check(root):
                 root.quit()
                 return
             if userinput.get() == set[idx].definition:
-                idx += 1
-                outputvar.set("Correct! Now, what is meant by "+ set[idx].term)
                 main.playSound("restartSession.mp3")
                 numcorrect += 1
+                idx += 1
+                outputvar.set("Correct! Now, what is meant by "+ set[idx].term)
             else:
                 outputvar.set("Incorrect. " + set[idx].term + " actually means " + set[idx].definition + ". Now, what is meant by " + set[idx + 1].term)
                 idx += 1
@@ -50,11 +50,11 @@ def check(root):
                     pickle.dump(list,txt)
                 root.quit()
                 return
-            if userinput.get() == set[idx].definition: 
-                idx += 1
-                outputvar.set("Correct! Now, what has the definition "+ set[idx].definition)
+            if userinput.get() == set[idx].definition:
                 main.playSound("restartSession.mp3")
                 numcorrect += 1
+                idx += 1
+                outputvar.set("Correct! Now, what has the definition "+ set[idx].definition)
             else:
                 outputvar.set("Incorrect. " + set[idx].definition + " actually belongs to " + set[idx].term + ". Now, what term has the definition " + set[idx + 1].definition)
                 idx += 1

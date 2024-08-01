@@ -1,7 +1,10 @@
 import os
 import pygame
 from tkinter import *
+
+import pygame.mixer_music
 def playSound(sound):
+    pygame.mixer.init()
     pygame.mixer.music.load(os.getcwd() + "/" + sound)
     pygame.mixer.music.play(loops=0)
 
