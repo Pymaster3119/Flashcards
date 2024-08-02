@@ -6,13 +6,20 @@ import datetime
 set = None
 idx = 0
 numcorrect = 0
+termdefinitions = []
+class termdefpair:
+    def __init__(self,term, state):
+        self.term = term
+        self.state = state
+
 def check(root):
-    global idx, numcorrect
+    global idx, numcorrect, termdefinitions
     if not swaptermsanddefinittions.get():
         try:
             print(set)
             if idx == -2:
-                list = [swaptermsanddefinittions.get(), numcorrect, len(set)]
+                print(termdefinitions)
+                list = [swaptermsanddefinittions.get(), numcorrect, len(set), termdefinitions]
                 iteration = 0
                 while True:
                     iteration += 1
@@ -32,9 +39,11 @@ def check(root):
             if userinput.get() == set[idx].definition:
                 main.playSound("restartSession.mp3")
                 numcorrect += 1
+                termdefinitions.append(termdefpair(set[idx].term, True))
                 idx += 1
                 outputvar.set("Correct! Now, what is meant by "+ set[idx].term)
             else:
+                termdefinitions.append(termdefpair(set[idx].term, False))
                 outputvar.set("Incorrect. " + set[idx].term + " actually means " + set[idx].definition + ". Now, what is meant by " + set[idx + 1].term)
                 idx += 1
         except IndexError:
@@ -43,7 +52,7 @@ def check(root):
     else:
         try:
             if idx == -2:
-                list = [swaptermsanddefinittions.get(), numcorrect, len(set)]
+                list = [swaptermsanddefinittions.get(), numcorrect, len(set), termdefinitions]
                 iteration = 0
                 while True:
                     iteration += 1
@@ -63,9 +72,11 @@ def check(root):
             if userinput.get() == set[idx].definition:
                 main.playSound("restartSession.mp3")
                 numcorrect += 1
+                termdefinitions.append(termdefpair(set[idx].term, True))
                 idx += 1
                 outputvar.set("Correct! Now, what has the definition "+ set[idx].definition)
             else:
+                termdefinitions.append(termdefpair(set[idx].term, False))
                 outputvar.set("Incorrect. " + set[idx].definition + " actually belongs to " + set[idx].term + ". Now, what term has the definition " + set[idx + 1].definition)
                 idx += 1
         except IndexError:

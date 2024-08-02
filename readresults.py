@@ -12,6 +12,28 @@ class PreaformanceRow():
         Label(frame, text="Number Correct?:" + str(list[1])).grid(row=0, column=1)
         Label(frame, text="Number of Terms?:" + str(list[2])).grid(row=0, column=2)
 
+def runanalysis(root, termname):
+    iteration = 0
+    percentages = []
+    while True:
+        iteration += 1
+        try:
+            with open("results/" + setname.get() + "|" + str(iteration), "rb") as txt:
+                print("HERE")
+                list = pickle.load(txt)
+                print("HERE")
+                print("LIST" + str(list[2]))
+                percentages.append(list[2][termname.get()])
+        except:
+            break
+    print(percentages)
+    #Plot learninggraph
+    fig = Figure(figsize = (5, 5), dpi = 100)
+    plot1 = fig.add_subplot(111)
+    plot1.plot(percentages)
+    canvas = FigureCanvasTkAgg(fig, master = root)
+    canvas.draw()
+    canvas.get_tk_widget().pack()
 def creategui(root):
     global setname
     for child in root.winfo_children():
@@ -28,17 +50,18 @@ def creategui(root):
                 print("here")
         except:
             break
-    #Plot manefesto
+    #Plot learninggraph
     fig = Figure(figsize = (5, 5), dpi = 100)
     plot1 = fig.add_subplot(111)
     plot1.plot(percentages)
     canvas = FigureCanvasTkAgg(fig, master = root)
     canvas.draw()
     canvas.get_tk_widget().pack()
-    toolbar = NavigationToolbar2Tk(canvas, root)
-    toolbar.update()
-    canvas.get_tk_widget().pack()
-    print("hi")
+
+    #Plot learningpath
+    termname = StringVar(root)
+    Entry(root, textvariable=termname, text="Track term progress - term name:").pack()
+    Button(root, text="Run Stats", command=lambda: runanalysis(root, termname)).pack()
 setname = None
 def runapp(root):
     global setname
