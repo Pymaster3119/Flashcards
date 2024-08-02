@@ -19,7 +19,7 @@ def check(root):
             print(set)
             if idx == -2:
                 print(termdefinitions)
-                list = [swaptermsanddefinittions.get(), numcorrect, len(set), termdefinitions]
+                list = [swaptermsanddefinittions.get(), numcorrect, len(set)]
                 iteration = 0
                 while True:
                     iteration += 1
@@ -29,6 +29,8 @@ def check(root):
                         break
                 with open("results/" + setname.get() + "|" + str(iteration), "wb") as txt:
                     pickle.dump(list,txt)
+                with open("detailedresults/" + setname.get() + "|" + str(iteration), "wb") as txt:
+                    pickle.dump(termdefinitions,txt)
                 with open("studytimes/" + setname.get(), "rb") as txt:
                     list = pickle.load(txt)
                 list.append(datetime.datetime.now())
@@ -52,7 +54,8 @@ def check(root):
     else:
         try:
             if idx == -2:
-                list = [swaptermsanddefinittions.get(), numcorrect, len(set), termdefinitions]
+                print(termdefinitions)
+                list = [swaptermsanddefinittions.get(), numcorrect, len(set)]
                 iteration = 0
                 while True:
                     iteration += 1
@@ -62,6 +65,8 @@ def check(root):
                         break
                 with open("results/" + setname.get() + "|" + str(iteration), "wb") as txt:
                     pickle.dump(list,txt)
+                with open("detailedresults/" + setname.get() + "|" + str(iteration), "wb") as txt:
+                    pickle.dump(termdefinitions,txt)
                 with open("studytimes/" + setname.get(), "rb") as txt:
                     list = pickle.load(txt)
                 list.append(datetime.datetime.now())

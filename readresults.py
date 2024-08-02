@@ -3,6 +3,7 @@ import pickle
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
 NavigationToolbar2Tk) 
+from loadflashcards import *
 
 class PreaformanceRow():
     def __init__(self, list, root):
@@ -12,19 +13,28 @@ class PreaformanceRow():
         Label(frame, text="Number Correct?:" + str(list[1])).grid(row=0, column=1)
         Label(frame, text="Number of Terms?:" + str(list[2])).grid(row=0, column=2)
 
-def runanalysis(root, termname):
+def runanalysis(root):
     iteration = 0
     percentages = []
     while True:
         iteration += 1
         try:
-            with open("results/" + setname.get() + "|" + str(iteration), "rb") as txt:
+            with open("detailedresults/" + setname.get() + "|" + str(iteration), "rb") as txt:
                 print("HERE")
                 list = pickle.load(txt)
                 print("HERE")
-                print("LIST" + str(list[2]))
-                percentages.append(list[2][termname.get()])
-        except:
+                print("LIST" + str(list))
+                print(type(list[0].term))
+                print(type(termname.get()))
+                print(termname.get())
+                for i in list:
+                    print(len(i.term.lower()))
+                    print(len(termname.get().lower()))
+                    if i.term.lower() in termname.get().lower() or termname.get().lower() in i.term.lower():
+                        print("HERE 2")
+                        percentages.append(i.state)
+        except Exception as e:
+            print(e)
             break
     print(percentages)
     #Plot learninggraph
@@ -34,8 +44,9 @@ def runanalysis(root, termname):
     canvas = FigureCanvasTkAgg(fig, master = root)
     canvas.draw()
     canvas.get_tk_widget().pack()
+termname = None
 def creategui(root):
-    global setname
+    global setname, termname
     for child in root.winfo_children():
         child.destroy()
     iteration = 0
@@ -58,10 +69,10 @@ def creategui(root):
     canvas.draw()
     canvas.get_tk_widget().pack()
 
-    #Plot learningpath
+    #Plot learningpath per term
     termname = StringVar(root)
-    Entry(root, textvariable=termname, text="Track term progress - term name:").pack()
-    Button(root, text="Run Stats", command=lambda: runanalysis(root, termname)).pack()
+    Entry(root, textvariable=termname).pack()
+    Button(root, text="Run Stats", command=lambda: runanalysis(root)).pack()
 setname = None
 def runapp(root):
     global setname
